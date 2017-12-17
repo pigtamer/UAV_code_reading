@@ -14,23 +14,16 @@ end
 
 ptsOriginal  = detectSURFFeatures(original);
 ptsDistorted = detectSURFFeatures(distorted);
-[featuresOriginal,validPtsOriginal] = ...
-    extractFeatures(original,ptsOriginal);
-[featuresDistorted,validPtsDistorted] = ...
-    extractFeatures(distorted,ptsDistorted);
-index_pairs = matchFeatures(featuresOriginal,featuresDistorted);
-matchedPtsOriginal  = validPtsOriginal(index_pairs(:,1));
-matchedPtsDistorted = validPtsDistorted(index_pairs(:,2));
 
-[featuresIn,   validPtsIn]  = extractFeatures(original,  ptsOriginal);
-[featuresOut, validPtsOut]  = extractFeatures(distorted, ptsDistorted);
+[featuresIn   validPtsIn]  = extractFeatures(original,  ptsOriginal);
+[featuresOut validPtsOut]  = extractFeatures(distorted, ptsDistorted);
 
 index_pairs = matchFeatures(featuresIn, featuresOut);
 
-matchedPtsOriginal  = validPtsIn(index_pairs(:,1));
-matchedPtsDistorted = validPtsOut(index_pairs(:,2));
+matchedOriginal  = validPtsIn(index_pairs(:,1));
+matchedDistorted = validPtsOut(index_pairs(:,2));
 
-if((size(index_pairs,1) < 2)||(matchedPtsOriginal.Count < 3)) 
+if((size(index_pairs,1) < 2)||(matchedOriginal.Count < 3)) 
     recovered = distorted;
     tform_matrix = -1*eye(3);
     return;
@@ -38,34 +31,41 @@ end
 
 if(show_flag == 1)
     ax = axes;
-    showMatchedFeatures(original,distorted,matchedPtsOriginal,matchedPtsDistorted,'Parent',ax);
+    showMatchedFeatures(original,distorted,matchedOriginal,matchedDistorted,'Parent',ax);
     legend(ax,'Matched points 1','Matched points 2');
     title('Putatively matched points (including outliers)');
 end
 
 
-
+ptsOriginal  = detectSURFFeatures(original);
+ptsDistorted = detectSURFFeatures(distorted);
+[featuresOriginal,validPtsOriginal] = ...
+    extractFeatures(original,ptsOriginal);
+[featuresDistorted,validPtsDistorted] = ...
+    extractFeatures(distorted,ptsDistorted);
+index_pairs = matchFeatures(featuresOriginal,featuresDistorted);
+matchedPtsOriginal  = validPtsOriginal(index_pairs(:,1));
+matchedPtsDistorted = validPtsDistorted(index_pairs(:,2));
 [gte,inlierPtsDistorted,inlierPtsOriginal] = ...
     estimateGeometricTransform(matchedPtsDistorted,matchedPtsOriginal,...
     'similarity');
 
 
-% [tform_matrix inlierIdx] = step(gte, matchedPtsDistorted.Location, matchedPtsOriginal.Location);
+% [tform_matrix inlierIdx] = step(gte, matchedDistorted.Location, matchedOriginal.Location);
 tform_matrix = gte.T;
 % inlierIdx = 
 
 if(show_flag == 1)
-    figure,
     ax = axes;
     
-%     showMatchedFeatures(original,distorted,matchedPtsOriginal(inlierIdx),matchedPtsDistorted(inlierIdx),'Parent',ax);
-    
+%     showMatchedFeatures(original,distorted,matchedOriginal(inlierIdx),matchedDistorted(inlierIdx),'Parent',ax);
+    figure,
     showMatchedFeatures(original,distorted,inlierPtsOriginal,inlierPtsDistorted);
     legend(ax,'Matched points 1','Matched points 2');
     title('Matching points (inliers only)');
 end
 
-% tform_matrix = cat(2,tform_matrix,[0 0 1]'); % pad the matrix
+tform_matrix = cat(2,tform_matrix,[0 0 1]'); % pad the matrix
 
 if(tform_matrix(3,1) > size(original,1)/2)&&(tform_matrix(3,2) > size(original,2)/2)
     tform_matrix = eye(3);
@@ -103,7 +103,7 @@ end
 % recovered(recovered == 0) = im2double(original(recovered == 0));
 % recovered = uint8(recovered*255);
 
-recovered = imwarp(distorted, gte, 'OutputView', imref2d(size(original)));
+recovered = imwarp(distorted, tform_matrix);
 
 
 
@@ -113,7 +113,7 @@ time = toc;
 
 if(show_flag == 1)
     figure,
-    imshow([original recovered abs(original - recovered)]);
+%     imshow([original recovered abs(original - recovered)]);
 
     fprintf('processed for in %.4f seconds \n',time);   
 end

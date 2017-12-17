@@ -1,9 +1,10 @@
-% clc, close all, clear
+% clc, clear
+close all
 %% ---- Parameters / Data Preparations ----
 vid_type = 'rexp';
 video_number = '1';
 % --- Read in video sequence as 3-d array ---
-VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_1.avi');
+VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_12.avi');
 Iroi = read(VIDEO_SOURCE, [1, Inf]);
 
 % thresh = 0.1;                                   %% if score is more then 0 then output result on the image
@@ -308,7 +309,7 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
     
     if(isempty(positions))
         fprintf('No positions to check found at the curent frame.\n Proceeding to the next one.\n');
-        continue;
+%         continue;
     end
     
     %% refinement
@@ -460,4 +461,4 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
     end
 end
 
-fprintf('\n');
+fprintf('TERMINATED NORMALLY\n');
