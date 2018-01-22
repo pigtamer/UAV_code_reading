@@ -1,0 +1,49 @@
+#依赖关系表
+
+在本文件中的标注遵从如下格式：
+    d0: 除了定义没有被使用 (defined only)
+    u100: 在该文件100行使用 (used at line 100)
+
+## suppl_func
+==============================
+
+refine_pos:
+    d0
+refine_pos_v1:
+    detector_with_refinement.m, [u318, u341],
+refine_scale*
+    d0
+setSeed:
+    d0
+show_res:
+    d0
+
+
+myhog3d:
+    detector_with_refinement.m:u413:     tmp = myhog3d(reshape(tst_data(1,:),btr_si,btr_sj,btr_st),rsize,numcell,1,0);
+    detector_with_refinement.m:u420:     ml_data(i,:) = myhog3d(reshape(tst_data(i,:),btr_si,btr_sj,btr_st),rsize,numcell,1,0);
+    -----------------------
+    > 注意！！！
+    > myhog3d 在classifier中被重定义
+    > 在classifier模块中始终使用的是重定义版本
+    > classifier中的文件没有被其他模块引用, 也就是classifier模块是完全独立的
+    -----------------------
+gaussSmooth:
+    _supp_func/myhog3d.m:52:V = gaussSmooth( Iroi, sigmas, 'smooth' );
+    classifier/myhog3d.m:52:V = gaussSmooth( Iroi, sigmas, 'smooth' );
+    detector_with_refinement.m:198:        [imx,imy] = gradient(gaussSmooth(im,[1 1],'smooth'));
+    detector_with_refinement.m:223:        a = gaussSmooth(im2double(im2),[1 1],'smooth');
+    detector_with_refinement.m:224:        b = gaussSmooth(im2double(recovered),[1 1],'smooth');
+    detector_with_refinement.m:256:        pvf_msk = gaussSmooth(pvf_msk,[1 1],'smooth');
+    detector_with_refinement.m:363:            traj = gaussSmooth(traj,[1 0],'smooth');
+
+vol2col:
+    _supp_func/myhog3d.m:92:    [Qblocks, numblocks] = vol2col(shiftdim(sampletmp,3), numcell, overlaptype, 1);
+    classifier/myhog3d.m:92:    [Qblocks, numblocks] = vol2col(shiftdim(sampletmp,3), numcell, overlaptype, 1);
+
+show_bbx:
+    _supp_func/vis_stack_of_loc.m:73:        oim = show_bbx( oim, array, 2, [0 255 0]);
+
+motion_from_im_feature:
+    detector_with_refinement.m
+

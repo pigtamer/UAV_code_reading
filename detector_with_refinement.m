@@ -4,7 +4,7 @@ close all
 vid_type = 'rexp';
 video_number = '1';
 % --- Read in video sequence as 3-d array ---
-VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_12.avi');
+VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_19.avi');
 Iroi = read(VIDEO_SOURCE, [1, Inf]);
 
 % thresh = 0.1;                                   %% if score is more then 0 then output result on the image
@@ -13,20 +13,20 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
 
     %% libraries and toolboxes
     addpath('./_supp_func/');
-    %% paths to libraries, that needs to be installed
+    %% paths to libraries that needs to be installed
 %     addpath('~/path/to/SQB files/from/Carlos Becker (point 3 in README)');
     addpath('X:\UAV\toolbox\sqb-0.1');
     addpath(genpath('X:\UAV\toolbox\piotr-toolbox\matlab'));
     addpath(genpath('X:\UAV\toolbox\vlfeat-0.9.20'));
 
-    load('./_mc_reg/drones/motion_regressor_10-Sep-2014.mat');
+    load('./_mc_reg/drones/motion_regressor_10-Sep-2014.mat'); % Using pre-trained model
     % reducing the number of trees to speed up (normal size is 30000 trees)
     motion_regressor_vert = motion_regressor_vert(1:5000);
     motion_regressor_hor = motion_regressor_hor(1:5000);
     
     save_flag = 1;
     start = 0;
-    time_step = 0.5;
+    time_step = 0.5; % -- Time step for marking.
     ml_type = 'btr';
     
     switch(vid_type)
@@ -219,7 +219,7 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
     if(t > ceil(st/2))
         im = Iroi(:,:,t-ceil(st/2));
         im2 = Iroi(:,:,t+ceil(st/2));
-        [recovered, matr] = motion_from_im_feature( im2, im, 0);
+        [recovered, matr] = motion_from_im_feature( im2, im, 1);
         a = gaussSmooth(im2double(im2),[1 1],'smooth');
         b = gaussSmooth(im2double(recovered),[1 1],'smooth');
         c = histeq(b,imhist(a));

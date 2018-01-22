@@ -46,24 +46,26 @@ end
 
 fprintf('\n');
 
-rnd = round(rand(1)*1000000);
+rnd = round(rand(1)*1000000); % just an index for saving models.
 
 save(sprintf('/cvlabdata1/cvlab/forArtem/third_party/CNN/CNN_regressor/my_data/data_%s_%d.mat',data_name,rnd),'test_x','test_y','-v7.3');
 
-%% running CNN on the data
-or_path = pwd;
+%% running CNN on the data (using theano python)
+ori_path = pwd;
 cd('/cvlabdata1/cvlab/forArtem/third_party/CNN/CNN_regressor/');
 
 comp_f = sprintf('~/tmp/comp_%s_%d',data_name,rnd);
 mkdir(comp_f);
 
 fprintf('\nStarted iteration #%d\n\n',iter);
+
+% --- using external system api to train model with theano CNN ---
 system(strcat('unset LD_LIBRARY_PATH; THEANO_FLAGS=''compiledir=''',sprintf('%s',comp_f),' python try_bd.pyc -p''./my_data/'' -n "',sprintf('%s_%d',data_name,rnd),'" -m "',model_name,'"'));
 cd('Utils/tools_matlab');
 
 rmdir(comp_f,'s');
 
-cd(or_path);
+cd(ori_path);
 
 %% loading the resulting data
 
@@ -72,6 +74,7 @@ delete(strcat('/cvlabdata1/cvlab/forArtem/third_party/CNN/CNN_regressor/my_data/
 delete(sprintf('/cvlabdata1/cvlab/forArtem/third_party/CNN/CNN_regressor/my_data/data_%s_%d.mat',data_name,rnd));
 load(strcat('/cvlabdata1/cvlab/forArtem/third_party/CNN/CNN_regressor/my_data/data_',model_name,'_params.mat'));
 
+% maxi , mini from resulting data of CNN
 res = res.*maxi;
 res = res+mini;
 res = reshape(res,2,[]);

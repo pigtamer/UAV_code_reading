@@ -37,6 +37,8 @@ if((size(index_pairs,1) < 2)||(matchedPtsOriginal.Count < 3))
 end
 
 if(show_flag == 1)
+    close all
+    figure(1)
     ax = axes;
     showMatchedFeatures(original,distorted,matchedPtsOriginal,matchedPtsDistorted,'Parent',ax);
     legend(ax,'Matched points 1','Matched points 2');
@@ -55,7 +57,7 @@ tform_matrix = gte.T;
 % inlierIdx = 
 
 if(show_flag == 1)
-    figure,
+    figure(2),
     ax = axes;
     
 %     showMatchedFeatures(original,distorted,matchedPtsOriginal(inlierIdx),matchedPtsDistorted(inlierIdx),'Parent',ax);
@@ -104,7 +106,8 @@ end
 % recovered = uint8(recovered*255);
 
 recovered = imwarp(distorted, gte, 'OutputView', imref2d(size(original)));
-
+figure(3),
+imshow(recovered),
 
 
 
