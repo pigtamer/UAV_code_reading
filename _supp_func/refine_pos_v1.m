@@ -20,7 +20,8 @@ annot = positions;
 nannot = annot;
 hbin = 4;
 
-vhog = vl_hog(im2single(rand(40,40)),hbin);
+vhog = vl_hog(im2single(rand(40,40)),hbin); % -- from vlfeat toolbox.
+% -- VLFeat manual: http://www.vlfeat.org/overview/hog.html
 
 vhogs = zeros(size(nannot,1),size(vhog(:)',2));
 
