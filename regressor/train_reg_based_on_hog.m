@@ -78,8 +78,7 @@ if(nargin < 5)||(isempty(hbin))
 end
 
 if(todo(1) == 1)
-
-%% preparing the dataset
+    %% preparing the dataset
 
     time1 = tic;
     if(~isempty(traindata))

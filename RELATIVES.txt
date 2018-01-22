@@ -1,4 +1,41 @@
 #依赖关系表
+============================
+$ ll */
+_supp_func/:
+total 546
+-rw-r--r-- 1 Tsuny 197609   1890 Dec 17 15:27 gaussSmooth.m
+-rw-r--r-- 1 Tsuny 197609   3255 Dec 17 19:47 motion_from_im_feature.m
+-rw-r--r-- 1 Tsuny 197609   4625 Dec 17 15:27 myhog3d.m
+    -rw-r--r-- 1 Tsuny 197609   3314 Dec 18 09:39 refine_pos.m
+-rw-r--r-- 1 Tsuny 197609   2200 Dec 17 15:27 refine_pos_v1.m
+    -rw-r--r-- 1 Tsuny 197609   3566 Dec 17 15:27 refine_scale.m
+    -rw-r--r-- 1 Tsuny 197609   2973 Dec 17 15:27 refine_scale_v0.m
+    -rw-r--r-- 1 Tsuny 197609   2915 Dec 17 15:27 refine_scale_v1.m
+    -rw-r--r-- 1 Tsuny 197609    179 Dec 17 15:27 setSeed.m
+-rw-r--r-- 1 Tsuny 197609   1119 Dec 17 15:27 show_bbx.m
+    -rw-r--r-- 1 Tsuny 197609    512 Dec 17 15:27 show_res.m
+-rw-r--r-- 1 Tsuny 197609   2024 Dec 17 15:27 vol2col.m
+
+classifier/:
+total 48
+-rw-r--r-- 1 Tsuny 197609  5800 Dec 17 15:27 export_reg_data_using_hbt.m
+-rw-r--r-- 1 Tsuny 197609  4625 Dec 17 15:27 myhog3d.m
+-rw-r--r-- 1 Tsuny 197609  3145 Dec 17 15:27 README.md
+-rw-r--r-- 1 Tsuny 197609 13349 Dec 17 15:27 test_on_data_from_file_HBT.m
+-rw-r--r-- 1 Tsuny 197609  3006 Dec 17 15:27 train_hog3d_model.m
+-rw-r--r-- 1 Tsuny 197609  2024 Dec 17 15:27 vol2col.m
+
+regressor/:
+total 17
+-rw-r--r-- 1 Tsuny 197609 6641 Dec 17 15:27 get_reg_data_from_annot_Iroi.m
+-rw-r--r-- 1 Tsuny 197609 7010 Jan 22 17:06 train_reg_based_on_hog.m
+============================
+
+
+
+
+grep -nH *m */*.m
+grep -wnH *m */*.m  %--- whole word only
 
 在本文件中的标注遵从如下格式：
     d0: 除了定义没有被使用 (defined only)
@@ -28,6 +65,8 @@ myhog3d:
     > 在classifier模块中始终使用的是重定义版本
     > classifier中的文件没有被其他模块引用, 也就是classifier模块是完全独立的
     -----------------------
+
+
 gaussSmooth:
     _supp_func/myhog3d.m:52:V = gaussSmooth( Iroi, sigmas, 'smooth' );
     classifier/myhog3d.m:52:V = gaussSmooth( Iroi, sigmas, 'smooth' );
