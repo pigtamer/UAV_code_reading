@@ -19,7 +19,7 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
     addpath(genpath('X:\UAV\toolbox\piotr-toolbox\matlab'));
     addpath(genpath('X:\UAV\toolbox\vlfeat-0.9.20'));
 
-    load('./_mc_reg/drones/motion_regressor_10-Sep-2014.mat'); % Using pre-trained model
+    load('./_mc_reg/drones/motion_regressor_10-Sep-2014.mat'); % Using pre-trained model for motion regression
     % reducing the number of trees to speed up (normal size is 30000 trees)
     motion_regressor_vert = motion_regressor_vert(1:5000);
     motion_regressor_hor = motion_regressor_hor(1:5000);

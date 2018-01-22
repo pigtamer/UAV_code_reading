@@ -36,6 +36,9 @@ if( nd > length(sigmas)); error('Incorrect # of simgas specified'); end
 sigmas = sigmas(1:nd);
 
 if( isa( I, 'uint8' ) ); I = double(I); end
+
+% -- now learn a way to set default args in matlab:
+
 if( nargin<3 || isempty(shape) ); shape='full'; end
 if( nargin<4 || isempty(radius) ); radius=2.25; end
 
