@@ -1,4 +1,4 @@
-% clc, clear
+clc, clear
 close all
 %% ---- Parameters / Data Preparations ----
 vid_type = 'rexp';

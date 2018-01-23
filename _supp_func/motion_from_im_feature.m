@@ -1,13 +1,13 @@
 function [recovered, tform_matrix] = motion_from_im_feature( original, distorted, show_flag)
 
-epsilon = 0.1;
-
 tic;
 
 if(nargin < 3)
     show_flag = 0;
 end
-
+% ---------------
+show_flag = 0;
+% ---------------
 if(show_flag == 1)
     imshow(original);
 end
@@ -86,18 +86,18 @@ recovered = imwarp(distorted, gte, 'OutputView', imref2d(size(original)), ...
 margin_idx = uint8(recovered) == 0;
 recovered(margin_idx) = original(margin_idx);
 
-figure(3),
-imshow(recovered)
 
 time = toc;
 
 if(show_flag == 1)
+    figure(3),
+    imshow(recovered), title('Recovered Image')
     figure(4),
     imshow([original recovered abs(original - recovered)]);
     figure(5),
-    mesh(abs(original - distorted)), title('DISTORTED')
+    mesh(abs(original - distorted)), title('Distorted gradient')
     figure(6),
-    mesh(abs(original - recovered)), title('RECOVERED')
+    mesh(abs(original - recovered)), title('Recovered gradient')
     pause(0.01)
 %     fprintf('processed for in %.4f seconds \n',time);   
 end
