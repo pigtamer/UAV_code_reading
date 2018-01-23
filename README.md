@@ -3,7 +3,7 @@
 
 * This code requires installation of the VLfeat library: <p>[http://www.vlfeat.org/](http://www.vlfeat.org/)</p>
 * It also uses Piotr Dollar’s toolbox <p>[https://github.com/pdollar/toolbox](https://github.com/pdollar/toolbox)</p>
-* Gradient Boosted Trees implementation from Carlos Becker <p> [https://sites.google.com/site/carlosbecker/resources/gradient-boosting-boosted-trees](https://sites.google.com/site/carlosbecker/resources/gradient-boosting-boosted-trees) </p>
+* Gradient Boosted Trees implementation from Carlos Becker (SQB Toolbox) <p> [https://sites.google.com/site/carlosbecker/resources/gradient-boosting-boosted-trees](https://sites.google.com/site/carlosbecker/resources/gradient-boosting-boosted-trees) </p>
 
 
 ### RUNNING:

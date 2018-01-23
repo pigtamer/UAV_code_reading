@@ -82,7 +82,7 @@ end
 
 
 recovered = imwarp(distorted, gte, 'OutputView', imref2d(size(original)), ...
-    'Interp', 'nearest');
+    'FillValues', 0);
 margin_idx = uint8(recovered) == 0;
 recovered(margin_idx) = original(margin_idx);
 

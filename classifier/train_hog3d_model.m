@@ -15,8 +15,8 @@ function [pl_svm,pref] = train_hog3d_model(pos_data,neg_data,pref,method,numIter
 %       pref:     some label added to the saved file
 
 
-addpath(genpath('~/path/to/liblinear'));                % <-- modify this
-addpath(genpath('~/path/to/Piotr_s_Dollars_toolbox'));  % <-- modify this
+addpath(genpath('../toolbox/liblinear-2.11/bin'));                % <-- modify this: path to libnear
+addpath(genpath('../toolbox/piotr-toolbox/matlab'));  % <-- modify this
 
 if(nargin < 1)
     disp(' ');
@@ -45,6 +45,9 @@ nsz = size(neg_data,1);
 switch(method)
     case 'svm'
         group = [ones(psz,1); zeros(nsz,1)];
+
+
+    % --- boost tree
     case 'btr'
         group = [ones(psz,1); -1*ones(nsz,1)];
     otherwise
@@ -77,9 +80,12 @@ end
 
 switch(method)
     case 'svm'
-        % training SVM
+        % training SVM, this is from liblinear.
         pl_svm = train(group, sparse(double(svm_data)),'-B 1');
         save(strcat('svm_',date,pref,'.mat'),'pl_svm','rsize','numcell','pref','-v7.3');
+
+
+    % -- "btr" means boost tree?
     case 'btr'
         opts = [];
         opts.loss = 'exploss'; % can be logloss or exploss
@@ -89,8 +95,12 @@ switch(method)
         opts.randSeed = uint32(rand()*1000);
 
         model = SQBMatrixTrain(single(svm_data), group, uint32(numIters), opts);
-        save(strcat('btr_',date,pref,'.mat'),'model','rsize','numcell','pref','-v7.3');
+        save(strcat('btr_',date,pref,'.mat'),'model','rsize','numcell','pref','-v7.3'); % SQB trains and saves a B-tree classifier to be applied later in detector with refinement. [https://sites.google.com/site/carlosbecker/resources/gradient-boosting-boosted-trees]
+        % 'date' is matlab command to show current date as 1*11 char-array: '23-Jan-2018'
+        % these models are saved in _ml folder.
         pl_svm = model;
+
+
     otherwise
         pl_svm = train(group, sparse(double(svm_data)),'-B 1');
         save(strcat('svm_',date,pref,'.mat'),'pl_svm','rsize','numcell','pref','-v7.3');

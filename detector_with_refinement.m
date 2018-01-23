@@ -4,7 +4,7 @@ close all
 vid_type = 'rexp';
 video_number = '1';
 % --- Read in video sequence as 3-d array ---
-VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_19.avi');
+VIDEO_SOURCE = VideoReader('D:\Proj\UAV\dataset\drones\Video_12.avi');
 Iroi = read(VIDEO_SOURCE, [1, Inf]);
 
 % thresh = 0.1;                                   %% if score is more then 0 then output result on the image
@@ -14,10 +14,10 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
     %% libraries and toolboxes
     addpath('./_supp_func/');
     %% paths to libraries that needs to be installed
-%     addpath('~/path/to/SQB files/from/Carlos Becker (point 3 in README)');
-    addpath('X:\UAV\toolbox\sqb-0.1');
-    addpath(genpath('X:\UAV\toolbox\piotr-toolbox\matlab'));
-    addpath(genpath('X:\UAV\toolbox\vlfeat-0.9.20'));
+    % addpath('~/path/to/SQB files/from/Carlos Becker (point 3 in README)');
+    addpath('../toolbox/sqb-0.1');
+    addpath(genpath('../toolbox/piotr-toolbox/matlab'));
+    addpath(genpath('../toolbox/vlfeat-0.9.20'));
 
     load('./_mc_reg/drones/motion_regressor_10-Sep-2014.mat'); % Using pre-trained model for motion regression
     % reducing the number of trees to speed up (normal size is 30000 trees)
@@ -34,6 +34,10 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
             fixed_camera_params = 1;
             cam_motion_comp     = 0;
             todouble = 1;
+            
+            
+            
+            
         case 'rexp'
             todouble = 1;
             switch(video_number)
@@ -69,8 +73,8 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
     si = 40;
     sj = 40;
 
-%    thresh = 0.2;                                   %% if score is more then 0 then output result on the image
-%    timestamp = datestr(datevec(now()), 'dd_mm_yy-HH_MM_SS');
+    %    thresh = 0.2;                                   %% if score is more then 0 then output result on the image
+    %    timestamp = datestr(datevec(now()), 'dd_mm_yy-HH_MM_SS');
 
     overlap = 0.8;
     max_det_overlap = 0.5;
@@ -87,14 +91,12 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
     
     switch(vid_type)
         case 'av'
-            
             switch(video_number)
                 case '20'
                     scales = [20, 30, 40];
                 otherwise
                     scales = [20, 30, 40, 50, 60, 80, 100, 120];
             end
-            
             switch(ml_type)
                 case 'btr';
                     btr_st = 4;
@@ -107,9 +109,14 @@ if(~exist('timestamp')||(~exist('stack_of_loc')))
                     disp('not finished for planes yet');
                     return;
             end
+            
+            
+            
+            
         case 'rexp'
             scales = [20, 25, 30, 35, 40, 45, 50];
             switch(ml_type)
+                
                 case 'btr'
                     numcell = [2,2,2];
                     btr_st = 4;
@@ -151,9 +158,6 @@ data_name = strcat('refinement_for_detection_',video_number,'_',ml_type,'_',num2
 
 %% variables
 [di,dj,len_vid] = size(Iroi);
-
-
-% t = 34;
 
 traj_ind = 1;
 
@@ -296,12 +300,12 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
                 continue;
             end
             
-%             im = block(:,:,ceil(st/2));
-%             im = repmat(im,[1 1 3]);
-%             im(:,:,2) = mask.*255;
-%             imshow(im);
-%             rectangle('position',[ca(2),ca(1),ca(4)-ca(2)+1,ca(3)-ca(1)+1]);
-%             waitforbuttonpress;
+            % im = block(:,:,ceil(st/2));
+            % im = repmat(im,[1 1 3]);
+            % im(:,:,2) = mask.*255;
+            % imshow(im);
+            % rectangle('position',[ca(2),ca(1),ca(4)-ca(2)+1,ca(3)-ca(1)+1]);
+            % waitforbuttonpress;
             
             positions = [positions; ca];
         end
@@ -400,7 +404,7 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
     end
     nsamples = size(tst_data,1);
 
-%% machine learning
+    %% machine learning
     
     switch(ml_type)            
         case 'btr'
