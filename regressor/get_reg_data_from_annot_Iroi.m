@@ -67,17 +67,17 @@ max_dist = max_dist./(1+2*prop);
 
 %% additional variables
 
-% fannot = fopen(sprintf('../../videos/%s/Video_%s.txt',video_path,video_number),'r');
+fannot = fopen(sprintf('../annotations/drones/Video_1.txt'),'r');
 
-% annot_max = 0;
-% tline = fgets(fannot);
-% while(tline ~= -1)
-%     annot_max = annot_max+1;
-%     tline = fgets(fannot);
-% end
-% fclose(fannot);
+annot_max = 0;
+tline = fgets(fannot);
+while(tline ~= -1)
+    annot_max = annot_max+1;
+    tline = fgets(fannot);
+end
+fclose(fannot);
 
-fannot = fopen(sprintf('../annotations/%s/Video_%s.txt',video_path,video_number),'r');
+fannot = fopen(sprintf('../annotations/drones/Video_1.txt'),'r');
 
 %% extraction
 
@@ -194,9 +194,9 @@ for t = 1:freq:lst
     if(save_flag == 1)&&(count == 200)
 %        save(sprintf('./%s/data_for_regression_with_scale.mat',video_path),'data','annot_data');
     	if(add_original == 1)
-            save(sprintf('./%s/data_for_regression_%d_pp_%.02f_ori.mat',video_path,si,prop),'data','annot_data');
+            save(sprintf('./cunyuan_test/data_for_regression_%d_pp_%.02f_ori.mat',si,prop),'data','annot_data');
     	else
-            save(sprintf('./%s/data_for_regression_%d_pp_%.02f.mat',video_path,si,prop),'data','annot_data');
+            save(sprintf('./cunyuan_test/data_for_regression_%d_pp_%.02f.mat',si,prop),'data','annot_data');
     	end
 	count = 0;
     end
@@ -207,8 +207,8 @@ fclose(fannot);
 if(save_flag == 1)
 %        save(sprintf('./%s/data_for_regression_with_scale.mat',video_path),'data','annot_data');
     if(add_original == 1)
-        save(sprintf('./%s/data_for_regression_%d_pp_%.02f_ori.mat',video_path,si,prop),'data','annot_data');
+        save(sprintf('./cunyuan_test/data_for_regression_%d_pp_%.02f_ori.mat',si,prop),'data','annot_data');
     else
-        save(sprintf('./%s/data_for_regression_%d_pp_%.02f.mat',video_path,si,prop),'data','annot_data');
+        save(sprintf('./cunyuan_test/data_for_regression_%d_pp_%.02f.mat',si,prop),'data','annot_data');
     end
 end

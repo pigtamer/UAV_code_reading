@@ -34,7 +34,7 @@ if(nargin < 10)
 end
 
 addpath('../_supp_func');
-addpath(genpath('../toolbox/vlfeat-0.9.20'));
+addpath(genpath('../../toolbox/vlfeat-0.9.20'));
 
 if(~exist('train_images'))
     display('Error: Training data is not loaded properly: exiting');

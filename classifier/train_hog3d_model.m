@@ -1,4 +1,4 @@
-function [pl_svm,pref] = train_hog3d_model(pos_data,neg_data,pref,method,numIters,si,sj,st)
+function [pl_svm,pref] = train_hog3d_model(pos_data,neg_data,pref,method,numIters,si,sj,st) % --- train_svm_hog3d
 
 %%  Input:
 %       pos_data: array or positive samples: NxM, where N is the number of samples and M = w*h*t of the spatio-temporal cube

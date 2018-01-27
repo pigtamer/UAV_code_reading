@@ -168,6 +168,8 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
 
     %% compensate for camera motion
 
+    % ---- in our test this is not needed
+
     matrix = zeros(3,3,st);
     for i = 1:st
         matrix(:,:,i) = eye(3);
@@ -234,22 +236,23 @@ for t = start:ceil(st*time_step):(len_vid-st-1)
         try
             ind = find([stack_of_loc.t] == t-ceil(st/2));
             im = zeros(di,dj);
-        for idx = 1:numel(ind)
-            indx = ind(idx);
-            strti = floor(max(stack_of_loc(indx).si,1));
-            strtj = floor(max(stack_of_loc(indx).sj,1));
-            psi = stack_of_loc(indx).fi - stack_of_loc(indx).si;
-            psj = stack_of_loc(indx).fj - stack_of_loc(indx).sj;
-            im(floor(strti+psi/4):floor(strti+3*psi/4),floor(strtj+psj/4):floor(strtj+3*psj/4)) = 1;
-        end
-        
-        agt = estimateGeometricTransform;
-        agt.OutputImagePositionSource = 'Property';
-        [h, w] = size(im);
-        agt.OutputImagePosition = [1 1 w h];
-        im = step(agt, im2single(im), single(matr));
-        im(im > 0.25)  = 1;
-        im(im <= 0.25) = 0;
+            
+            for idx = 1:numel(ind)
+                indx = ind(idx);
+                strti = floor(max(stack_of_loc(indx).si,1));
+                strtj = floor(max(stack_of_loc(indx).sj,1));
+                psi = stack_of_loc(indx).fi - stack_of_loc(indx).si;
+                psj = stack_of_loc(indx).fj - stack_of_loc(indx).sj;
+                im(floor(strti+psi/4):floor(strti+3*psi/4),floor(strtj+psj/4):floor(strtj+3*psj/4)) = 1;
+            end
+            
+            agt = estimateGeometricTransform;
+            agt.OutputImagePositionSource = 'Property';
+            [h, w] = size(im);
+            agt.OutputImagePosition = [1 1 w h];
+            im = step(agt, im2single(im), single(matr));
+            im(im > 0.25)  = 1;
+            im(im <= 0.25) = 0;
         catch
             im = ones(di,dj);
         end
