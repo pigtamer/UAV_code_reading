@@ -33,8 +33,8 @@ if(nargin < 10)
     suff = '';
 end
 
-addpath('~/matlab_code/my_try/_suppl_functions');
-addpath(genpath('~/matlab_code/vlfeat'));
+addpath('../_supp_func');
+addpath(genpath('../toolbox/vlfeat-0.9.20'));
 
 if(~exist('train_images'))
     display('Error: Training data is not loaded properly: exiting');
@@ -48,7 +48,7 @@ end
 
 %% parameters
 
-fldr = '/cvlabdata1/cvlab/forArtem/reg_tmp';
+fldr = 'cunyuan_test';
 if(exist(fldr) == 0)
     mkdir(fldr);
 end
@@ -176,9 +176,13 @@ if(todo(2) == 1)
     fprintf('trained in %.0f minutes %.2f seconds \n',min_time,sec_time);
 
     if(size(annot_data,2) > 2)
-    	save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','si','sj','hbin');
+    	% save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','si','sj','hbin');
+    	save(sprintf('./cunyuan_test/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','si','sj','hbin');
+        
     else
-	save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','si','sj','hbin');
+	% save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','si','sj','hbin');
+	save(sprintf('./cunyuan_test/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','si','sj','hbin');
+    
     end
 end
 
@@ -205,9 +209,15 @@ if(todo(3) == 1)
     fprintf('done in %.0f minutes %.2f seconds \n',min_time,sec_time);
 
     if(size(annot_data,2) > 2)
-    	save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','score_on_td','si','sj','hbin');
+    	% save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','score_on_td','si','sj','hbin');
+
+    	save(sprintf('./cunyuan_test/Regressors/motion_regressor_with_scale_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','motion_regressor_scale','score_on_td','si','sj','hbin');
+        
     else
-	save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','score_on_td','si','sj','hbin');
+        % save(sprintf('/home/rozantse/matlab_code/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','score_on_td','si','sj','hbin');
+
+        save(sprintf('./cunyuan_test/Regressors/motion_regressor_%s%s.mat',date,suff),'motion_regressor_vert','motion_regressor_hor','score_on_td','si','sj','hbin');
+    
     end
     display(sprintf('sum squared error: vert = %.02f, hor = %.02f',score_on_td(1),score_on_td(2)));
 

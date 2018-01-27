@@ -67,17 +67,17 @@ max_dist = max_dist./(1+2*prop);
 
 %% additional variables
 
-fannot = fopen(sprintf('../../videos/%s/Video_%s.txt',video_path,video_number),'r');
+% fannot = fopen(sprintf('../../videos/%s/Video_%s.txt',video_path,video_number),'r');
 
-annot_max = 0;
-tline = fgets(fannot);
-while(tline ~= -1)
-    annot_max = annot_max+1;
-    tline = fgets(fannot);
-end
-fclose(fannot);
+% annot_max = 0;
+% tline = fgets(fannot);
+% while(tline ~= -1)
+%     annot_max = annot_max+1;
+%     tline = fgets(fannot);
+% end
+% fclose(fannot);
 
-fannot = fopen(sprintf('../../annotations/%s/Video_%s.txt',video_path,video_number),'r');
+fannot = fopen(sprintf('../annotations/%s/Video_%s.txt',video_path,video_number),'r');
 
 %% extraction
 
@@ -120,7 +120,7 @@ for t = 1:freq:lst
 		ra(j,1) = ra(j,1) - round(prop*rszi);
 		ra(j,2) = ra(j,2) - round(prop*rszj);
 		ra(j,3) = ra(j,3) + round(prop*rszi);
-		ra(j,4) = ra(j,4) + round(prop*rszj);
+		ra(j,4) = ra(j,4) + round(prop*rszj); % dedicated to resize(extend) detection area by proportion "prop" of original rsize_i and rsize_j, default prop = 0
 		
             for i = 1:spf
                 a = ra;
@@ -163,11 +163,11 @@ for t = 1:freq:lst
 %		jmargin = round(prop*szj);
 		imargin = round(prop*si);
 		jmargin = round(prop*sj);
-                if(add_original == 1)
+                if(add_original == 1) % -- resize annot area to prop-ed.
                     data = [data; reshape(imresize(Iroi(a(j,1):a(j,3),a(j,2):a(j,4),t),[si+2*imargin,sj+2*jmargin],'bilinear'),1,[]), ...
-                                  reshape(imresize(Iroi(a(j,1)+di:a(j,3)+di,a(j,2)+dj:a(j,4)+dj,t),[si+2*imargin,sj+2*jmargin],'bilinear'),1,[])];
+                                  reshape(imresize(Iroi(a(j,1)+di:a(j,3)+di,a(j,2)+dj:a(j,4)+dj,t),[si+2*imargin,sj+2*jmargin],'bilinear'),1,[])]; % --- first reshape is unbiased, 2nd is biased.
                 else
-                    data = [data; reshape(imresize(Iroi(a(j,1)+di:a(j,3)+di,a(j,2)+dj:a(j,4)+dj,t),[si+2*imargin,sj+2*jmargin],'bilinear'),1,[])];
+                    data = [data; reshape(imresize(Iroi(a(j,1)+di:a(j,3)+di,a(j,2)+dj:a(j,4)+dj,t),[si+2*imargin,sj+2*jmargin],'bilinear'),1,[])]; % -- no original, only randomly biased cube.
                 end
 		if(scale_thr > 0)
                     annot_data = [annot_data; [di/szi dj/szj ext/scale_thr]];
